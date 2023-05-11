@@ -15,31 +15,13 @@ const lEDs = ref([...Array(channels).keys()])
 </script>
 
 <template>
-  <div id="grid" class="grid grid-flow-row gap-4 p-4">
-    <PsuCard id="psu" />
-    <WarningsCard id="warnings" :controller="controller" />
-    <LedCard
-      v-for="led in lEDs"
-      :key="led"
-      :index="led"
-      :style="`grid-column: span ${4 / channels}`"
-    />
+  <div class="space-y-4 p-4">
+    <div class="flex flex-col justify-around gap-4 lg:flex-row">
+      <PsuCard />
+      <WarningsCard :controller="controller" />
+    </div>
+    <div class="flex flex-col justify-around gap-4 lg:flex-row">
+      <LedCard v-for="led in lEDs" :key="led" :index="led" />
+    </div>
   </div>
 </template>
-
-<style scoped>
-#grid {
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 1fr 2fr;
-  grid-template-areas:
-    'a a b b'
-    '. . . .';
-}
-#psu {
-  grid-area: a;
-}
-
-#warnings {
-  grid-area: b;
-}
-</style>
