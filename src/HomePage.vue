@@ -10,7 +10,7 @@ import HomeLink from '@/components/HomeLink.vue'
       </h1>
       <p class="text-xl">Choose your controller</p>
     </div>
-    <div class="grid grid-cols-1 gap-4 p-4 lg:grid-cols-2 2xl:grid-cols-3">
+    <div class="mx-4 grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-3">
       <HomeLink
         internal="/dig2go"
         title="QuinLED-Dig2go"
@@ -30,5 +30,9 @@ import HomeLink from '@/components/HomeLink.vue'
         external="https://quinled.info/quinled-dig-quad/"
       />
     </div>
+  </div>
+  <div class="m-4">
+    <h2 class="text-4xl font-extrabold">Resources (🚧 Under Construction)</h2>
+    <a href="https://discord.gg/WdbAauG">Intermit.tech Discord Server</a>
   </div>
 </template>
