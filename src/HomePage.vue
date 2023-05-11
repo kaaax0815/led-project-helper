@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HomeLink from '@/components/HomeLink.vue'
+import HomeResources from '@/components/HomeResources.vue'
 </script>
 
 <template>
@@ -31,8 +32,5 @@ import HomeLink from '@/components/HomeLink.vue'
       />
     </div>
   </div>
-  <div class="m-4">
-    <h2 class="text-4xl font-extrabold">Resources (🚧 Under Construction)</h2>
-    <a href="https://discord.gg/WdbAauG">Intermit.tech Discord Server</a>
-  </div>
+  <HomeResources />
 </template>
