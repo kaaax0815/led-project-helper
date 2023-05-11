@@ -11,7 +11,7 @@ module.exports = {
         'quin-dark': '#111111'
       },
       fontFamily: {
-        sans: ['PT-Sans', 'sans-serif']
+        sans: ['PT Sans', 'sans-serif']
       }
     }
   },
