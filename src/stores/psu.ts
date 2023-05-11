@@ -4,7 +4,7 @@ export const usePSUStore = defineStore('psu', {
   state: () => {
     return {
       voltage: null as number | null,
-      voltageMismatch: null as boolean | null,
+      voltageMismatch: false,
       totalAmps: null as number | null
     }
   },
@@ -20,7 +20,7 @@ export const usePSUStore = defineStore('psu', {
     },
     resetPSU() {
       this.voltage = null
-      this.voltageMismatch = null
+      this.voltageMismatch = false
       this.totalAmps = null
     }
   }

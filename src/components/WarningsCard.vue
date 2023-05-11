@@ -13,7 +13,7 @@ const psu = usePSUStore()
 
 const controller = Controllers[props.controller]
 
-const voltageMismatch = computed(() => {
+const unsupportedVoltage = computed(() => {
   if (psu.voltage === null) {
     return false
   }
@@ -39,12 +39,12 @@ const exceededAmperage = computed(() => {
       <p class="text-lg underline">Amperage too high</p>
       <p>You will need a different controller</p>
     </div>
-    <div v-if="voltageMismatch">
+    <div v-if="unsupportedVoltage">
       <p class="text-lg underline">Voltage not supported</p>
       <p>You will need a different controller</p>
       <p>Expected: {{ controller.supportedVoltages.join('V or ') }}V</p>
     </div>
-    <div v-if="!psu.voltageMismatch && !exceededAmperage && !voltageMismatch">
+    <div v-if="!psu.voltageMismatch && !exceededAmperage && !unsupportedVoltage">
       <p>Everything looks fine</p>
     </div>
   </CardLayout>

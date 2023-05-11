@@ -19,6 +19,11 @@ const power = computed(() => {
       if (!curr) {
         return prev
       }
+      if (prev.wattage === null || prev.voltage === null || prev.amperage == null) {
+        prev.wattage = 0
+        prev.voltage = 0
+        prev.amperage = 0
+      }
       const power = calculatePower(curr.strip, curr.length)
 
       const newWattage = prev.wattage + power.wattage
@@ -37,15 +42,19 @@ const power = computed(() => {
       }
     },
     {
-      wattage: 0,
-      voltage: 0,
-      amperage: 0
+      wattage: null as null | number,
+      voltage: null as null | number,
+      amperage: null as null | number
     }
   )
 })
 
 watch(power, (v) => {
-  psu.setVoltage(v.voltage), psu.setTotalAmps(v.amperage)
+  if (v.voltage === null || v.amperage === null) {
+    return
+  }
+  psu.setVoltage(v.voltage)
+  psu.setTotalAmps(v.amperage)
 })
 
 watch(stripExists, (v) => {
@@ -59,9 +68,9 @@ watch(stripExists, (v) => {
   <CardLayout>
     <CardTitle>Power Supply at (50% RGB White)</CardTitle>
     <div v-if="stripExists">
-      <p>Wattage: {{ power.wattage.toFixed(2) }}W</p>
-      <p>Voltage: {{ power.voltage.toFixed(0) }}V</p>
-      <p>Amperage: {{ power.amperage.toFixed(2) }}A</p>
+      <p>Wattage: {{ power.wattage?.toFixed(2) }}W</p>
+      <p>Voltage: {{ power.voltage?.toFixed(0) }}V</p>
+      <p>Amperage: {{ power.amperage?.toFixed(2) }}A</p>
     </div>
     <div v-else>
       <p>No strips added</p>
