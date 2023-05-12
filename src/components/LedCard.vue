@@ -99,6 +99,14 @@ const handleReset = () => {
   stripInjections.value = null
   strips.removeStrip(props.index)
 }
+
+const getUniqueArray = <T extends keyof Strip>(key: T) => {
+  const uniqueArray = new Set<Strip[T]>()
+  availableStrips.value.forEach((item) => {
+    uniqueArray.add(item[key])
+  })
+  return Array.from(uniqueArray)
+}
 </script>
 
 <template>
@@ -117,7 +125,7 @@ const handleReset = () => {
       <label for="stripVoltage">Voltage: </label>
       <select id="stripVoltage" disabled @change="handleVoltageChange" ref="stripVoltage">
         <option selected value>Select an option</option>
-        <option v-for="{ voltage } in availableStrips" :key="voltage">{{ voltage }}V</option>
+        <option v-for="voltage in getUniqueArray('voltage')" :key="voltage">{{ voltage }}V</option>
       </select>
     </div>
     <div>
@@ -129,7 +137,7 @@ const handleReset = () => {
         ref="stripLEDsPerMeter"
       >
         <option selected value>Select an option</option>
-        <option v-for="{ lEDsPerMeter } in availableStrips" :key="lEDsPerMeter">
+        <option v-for="lEDsPerMeter in getUniqueArray('lEDsPerMeter')" :key="lEDsPerMeter">
           {{ lEDsPerMeter }}LEDs/m
         </option>
       </select>

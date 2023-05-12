@@ -119,10 +119,9 @@ export type Strip = {
   }
   /** @Unit `LEDs/m [LEDs per meter]` */
   lEDsPerMeter: number
-  /** If not specified no other variants available */
-  variant?: Variants
 }
 
+// Ignored for now
 export type Variants = 'Normal' | 'Bright'
 
 export type Modes = keyof Strip['powerDraw']

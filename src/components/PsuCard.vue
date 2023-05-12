@@ -29,10 +29,12 @@ const power = computed(() => {
       const newWattage = prev.wattage + power.wattage
       let newVoltage = prev.voltage
       if (prev.voltage !== curr.strip.voltage) {
-        if (prev.voltage !== 0) {
+        if (prev.voltage !== null) {
           psu.setVoltageMismatch(true)
+          if (prev.voltage <= curr.strip.voltage) {
+            newVoltage = curr.strip.voltage
+          }
         }
-        newVoltage = curr.strip.voltage
       }
       const newAmperage = newWattage / newVoltage
       return {
