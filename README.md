@@ -6,7 +6,7 @@
 
 This is a Vue Website styled with TailwindCSS that helps you build your next LED Project. You can select your QuinLED Controller and choose a LED Strip for each channel. The website will then calculate the power consumption, the needed power supply and if there could be anything to look out for.
 
-### 🔮 Future
+### 🔮 Planned Features
 
 - [ ] Add more Information about each Strip (Total LEDs, Pixels, Power Consumptions, etc.)
 - [ ] Calculate Power Drop and needed Wire Gauge for Power Cables to and from the Strip
@@ -27,7 +27,7 @@ If you now about Vue, TailwindCSS and LEDs, feel free to contribute to this proj
 Clone the repo
 
 ```sh
-  git clone https://github.com/kaaax0815/led-project-helper
+git clone https://github.com/kaaax0815/led-project-helper
 ```
 
 Install packages
