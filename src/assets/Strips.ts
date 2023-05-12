@@ -38,11 +38,74 @@ export const Strips = [
       RGB_50: 41.41
     },
     lEDsPerMeter: 60
+  },
+  {
+    type: 'WS2811',
+    voltage: 12,
+    powerDraw: {
+      RGB_50: 53.5
+    },
+    lEDsPerMeter: 96
+  },
+  {
+    type: 'WS2811',
+    voltage: 12,
+    powerDraw: {
+      RGB_50: 76.34
+    },
+    lEDsPerMeter: 144
+  },
+  {
+    type: 'SK6812',
+    voltage: 12,
+    powerDraw: {
+      RGB_50: 16.5
+    },
+    lEDsPerMeter: 60
+  },
+  {
+    type: 'WS2811',
+    voltage: 24,
+    powerDraw: {
+      RGB_50: 72.87
+    },
+    lEDsPerMeter: 60
+  },
+  {
+    type: 'SK6812',
+    voltage: 24,
+    powerDraw: {
+      RGB_50: 22.42
+    },
+    lEDsPerMeter: 60
+  },
+  {
+    type: 'WS2814',
+    voltage: 24,
+    powerDraw: {
+      RGB_50: 34.51
+    },
+    lEDsPerMeter: 60
+  },
+  {
+    type: 'WS2811',
+    voltage: 24,
+    powerDraw: {
+      RGB_50: 59.0
+    },
+    lEDsPerMeter: 240
   }
 ] satisfies Strip[]
 
 export type Voltages = 5 | 12 | 24
-export const StripTypes = ['WS2812b', 'WS2812b-Eco', 'SK6812', 'WS2815', 'WS2811'] as const
+export const StripTypes = [
+  'WS2812b',
+  'WS2812b-Eco',
+  'SK6812',
+  'WS2815',
+  'WS2811',
+  'WS2814'
+] as const
 export type StripTypes = (typeof StripTypes)[number]
 
 export type Strip = {
