@@ -15,7 +15,7 @@ const stripExists = computed(() => {
 
 const power = computed(() => {
   if (!stripExists.value) {
-    psu.resetPSU()
+    psu.$reset();
     return null
   }
 

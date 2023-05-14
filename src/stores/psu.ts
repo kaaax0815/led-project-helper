@@ -13,10 +13,6 @@ export const usePSUStore = defineStore('psu', {
     },
     setAmperage(value: number) {
       this.amperage = value
-    },
-    resetPSU() {
-      this.voltage = null
-      this.amperage = null
     }
   }
 })
