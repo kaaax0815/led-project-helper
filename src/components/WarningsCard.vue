@@ -16,7 +16,7 @@ const psu = usePSUStore()
 const controller = Controllers[props.controller]
 
 const voltageMismatch = computed(() => {
-  return strips.strips.filter((v) => v !== null).some((v) => v!.strip.voltage !== psu.voltage)
+  return strips.slots.some((v) => v.strip.voltage !== psu.voltage)
 })
 
 const unsupportedVoltage = computed(() => {

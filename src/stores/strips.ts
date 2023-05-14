@@ -4,18 +4,19 @@ import { defineStore } from 'pinia'
 export const useStripsStore = defineStore('strips', {
   state: () => {
     return {
-      strips: Array.from([null, null, null, null]) as (StripsValue | null)[]
+      /** CAREFUL: Array can be empty or have `empty` values */
+      slots: new Array() as StripsValue[]
     }
   },
   actions: {
     addStrip(index: number, strip: Strip, length: number) {
-      this.strips[index] = {
+      this.slots[index] = {
         strip,
         length
       }
     },
     removeStrip(index: number) {
-      this.strips[index] = null
+      delete this.slots[index]
     }
   }
 })

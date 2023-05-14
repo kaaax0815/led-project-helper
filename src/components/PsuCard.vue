@@ -10,16 +10,20 @@ const strips = useStripsStore()
 const psu = usePSUStore()
 
 const stripExists = computed(() => {
-  return !strips.strips.every((v) => v === null)
+  const slots = strips.slots.filter((v) => v)
+  if (slots.length === 0) {
+    return false
+  }
+  return true
 })
 
 const power = computed(() => {
   if (!stripExists.value) {
-    psu.$reset();
+    psu.$reset()
     return null
   }
 
-  const { wattage, voltage } = strips.strips.reduce(
+  const { wattage, voltage } = strips.slots.reduce(
     (prev, curr) => {
       if (!curr) {
         return prev
