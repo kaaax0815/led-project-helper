@@ -4,14 +4,20 @@ import CardLayout from './CardLayout.vue'
 import CardTitle from './CardTitle.vue'
 import { computed } from 'vue'
 import { usePSUStore } from '@/stores/psu'
+import { useStripsStore } from '@/stores/strips'
 
 const props = defineProps<{
   controller: ControllerTypes
 }>()
 
+const strips = useStripsStore()
 const psu = usePSUStore()
 
 const controller = Controllers[props.controller]
+
+const voltageMismatch = computed(() => {
+  return strips.strips.filter((v) => v !== null).some((v) => v!.strip.voltage !== psu.voltage)
+})
 
 const unsupportedVoltage = computed(() => {
   if (psu.voltage === null) {
@@ -21,17 +27,17 @@ const unsupportedVoltage = computed(() => {
 })
 
 const exceededAmperage = computed(() => {
-  if (psu.totalAmps === null) {
+  if (psu.amperage === null) {
     return false
   }
-  return psu.totalAmps > controller.maxAmperage
+  return psu.amperage > controller.maxAmperage
 })
 </script>
 
 <template>
   <CardLayout>
     <CardTitle>Warnings</CardTitle>
-    <div v-if="psu.voltageMismatch">
+    <div v-if="voltageMismatch">
       <p class="text-lg underline">Voltage Mismatch</p>
       <p>You will need Buck Converters</p>
     </div>
@@ -44,7 +50,7 @@ const exceededAmperage = computed(() => {
       <p>You will need a different controller</p>
       <p>Expected: {{ controller.supportedVoltages.join('V or ') }}V</p>
     </div>
-    <div v-if="!psu.voltageMismatch && !exceededAmperage && !unsupportedVoltage">
+    <div v-if="!voltageMismatch && !exceededAmperage && !unsupportedVoltage">
       <p>Everything looks fine</p>
     </div>
   </CardLayout>
