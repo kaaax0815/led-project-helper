@@ -143,16 +143,48 @@ export function calculatePower(strip: Strip, length: number, mode: Modes = 'RGB_
  * Each middle injection can handle 8A
  * Tolerance of 0.5A
  */
-export function calculateInjections(strip: Strip, length: number) {
+export function calculateInjections(strip: Strip, length: number): InjectionPoint[] {
   const { amperage } = calculatePower(strip, length)
   if (amperage <= 4) {
-    return [`Front (${amperage.toFixed(1)}A)`]
+    return [
+      {
+        position: 'Front',
+        amperage: Number(amperage.toFixed(1))
+      }
+    ]
   }
   if (amperage <= 9) {
     const half = (amperage / 2).toFixed(1)
-    return [`Front (${half}A)`, `Back (${half}A)`]
+    return [
+      {
+        position: 'Front',
+        amperage: Number(half)
+      },
+      {
+        position: 'Back',
+        amperage: Number(half)
+      }
+    ]
   }
   const remaining = amperage - 8
   const middleInjections = Math.ceil((remaining - 0.5) / 8)
-  return [`Front (4A)`, `${middleInjections}x Middle (${remaining.toFixed(1)}A)`, `Back (4A)`]
+  return [
+    {
+      position: 'Front',
+      amperage: 4
+    },
+    {
+      position: 'Back',
+      amperage: 4
+    },
+    {
+      position: `${middleInjections}x Middle`,
+      amperage: Number(remaining.toFixed(1))
+    }
+  ]
+}
+
+export type InjectionPoint = {
+  position: string
+  amperage: number
 }

@@ -9,7 +9,6 @@ This is a Vue Website styled with TailwindCSS that helps you build your next LED
 ### 🔮 Planned Features
 
 - [ ] Add more Information about each Strip (Total LEDs, Pixels, Power Consumptions, etc.)
-- [ ] Calculate Power Drop and needed Wire Gauge for Power Cables to and from the Strip
 
 ### ✨ Contribute
 

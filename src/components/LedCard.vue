@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { type Strip, Strips, calculateInjections } from '@/assets/Strips.js'
+import { type InjectionPoint, type Strip, Strips, calculateInjections } from '@/assets/Strips.js'
 import { ref, watch } from 'vue'
 import CardLayout from './CardLayout.vue'
 import CardTitle from './CardTitle.vue'
 import LedButton from './LedButton.vue'
+import LedInjection from './LedInjection.vue'
 import { useStripsStore } from '@/stores/strips'
 
 const props = defineProps({
@@ -18,7 +19,7 @@ const stripLEDsPerMeter = ref('')
 const stripLength = ref('5')
 
 const availableStrips = ref<Strip[]>(Strips)
-const stripInjections = ref<string[] | null>(null)
+const injectionData = ref<{ points: InjectionPoint[]; voltage: number } | null>(null)
 
 watch([stripType, stripVoltage, stripLEDsPerMeter], ([type, voltage, lEDsPerMeter]) => {
   let strips = [...Strips]
@@ -61,7 +62,10 @@ const handleCalculate = () => {
 
   strips.addStrip(props.index, availableStrips.value[0], parsedLength)
 
-  stripInjections.value = calculateInjections(availableStrips.value[0], parsedLength)
+  injectionData.value = {
+    points: calculateInjections(availableStrips.value[0], parsedLength),
+    voltage: availableStrips.value[0].voltage
+  }
 }
 
 const handleReset = () => {
@@ -70,7 +74,7 @@ const handleReset = () => {
   stripLEDsPerMeter.value = ''
   stripLength.value = '5'
   availableStrips.value = Strips
-  stripInjections.value = null
+  injectionData.value = null
   strips.removeStrip(props.index)
 }
 
@@ -112,18 +116,22 @@ const getUniqueArray = <T extends keyof Strip>(key: T) => {
       </select>
     </div>
     <div>
-      <label for="stripLength">Length: </label>
+      <label for="stripLength">Strip Length (m): </label>
       <input id="stripLength" type="number" v-model="stripLength" min="1" max="100" step="0.5" />
     </div>
     <div class="flex justify-around">
       <LedButton value="Calculate" @click="handleCalculate" />
       <LedButton value="Reset" @click="handleReset" />
     </div>
-    <div v-if="stripInjections !== null">
-      <label>Injections: </label>
+    <div v-if="injectionData !== null">
+      <p class="mb-2 text-xl">Injections</p>
       <ul>
-        <li v-for="injection in stripInjections" :key="injection">
-          {{ injection }}
+        <li
+          v-for="injectionPoint in injectionData.points"
+          :key="injectionPoint.position"
+          class="mb-4"
+        >
+          <LedInjection :injection="injectionPoint" :voltage="injectionData.voltage" />
         </li>
       </ul>
     </div>
