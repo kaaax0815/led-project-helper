@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { type InjectionPoint, type Strip, Strips, calculateInjections } from '@/assets/Strips.js'
-import { ref, watch } from 'vue'
 import CardLayout from './CardLayout.vue'
 import CardTitle from './CardTitle.vue'
 import LedButton from './LedButton.vue'
 import LedInjection from './LedInjection.vue'
+import { ref } from 'vue'
 import { useStripsStore } from '@/stores/strips'
 
 const props = defineProps({
@@ -18,35 +18,34 @@ const stripVoltage = ref('')
 const stripLEDsPerMeter = ref('')
 const stripLength = ref('5')
 
-const availableStrips = ref<Strip[]>(Strips)
 const injectionData = ref<{ points: InjectionPoint[]; voltage: number } | null>(null)
 
-watch([stripType, stripVoltage, stripLEDsPerMeter], ([type, voltage, lEDsPerMeter]) => {
-  let strips = [...Strips]
+const handleCalculate = () => {
+  let availableStrips = [...Strips]
+
+  const type = stripType.value
+  const voltage = stripVoltage.value
+  const lEDsPerMeter = stripLEDsPerMeter.value
 
   if (type) {
-    strips = strips.filter((strip) => strip.type === type)
+    availableStrips = availableStrips.filter((strip) => strip.type === type)
   }
 
   if (voltage) {
     const parsedVoltage = Number.parseInt(voltage)
     if (!Number.isNaN(parsedVoltage) && parsedVoltage > 0) {
-      strips = strips.filter((strip) => strip.voltage === parsedVoltage)
+      availableStrips = availableStrips.filter((strip) => strip.voltage === parsedVoltage)
     }
   }
 
   if (lEDsPerMeter) {
     const parsedLEDsPerMeter = Number.parseInt(lEDsPerMeter)
     if (!Number.isNaN(parsedLEDsPerMeter) && parsedLEDsPerMeter > 0) {
-      strips = strips.filter((strip) => strip.lEDsPerMeter === parsedLEDsPerMeter)
+      availableStrips = availableStrips.filter((strip) => strip.lEDsPerMeter === parsedLEDsPerMeter)
     }
   }
 
-  availableStrips.value = strips
-})
-
-const handleCalculate = () => {
-  if (availableStrips.value.length === 0 || availableStrips.value.length > 1) {
+  if (availableStrips.length === 0 || availableStrips.length > 1) {
     return
   }
 
@@ -60,11 +59,11 @@ const handleCalculate = () => {
     return
   }
 
-  strips.addStrip(props.index, availableStrips.value[0], parsedLength)
+  strips.addStrip(props.index, availableStrips[0], parsedLength)
 
   injectionData.value = {
-    points: calculateInjections(availableStrips.value[0], parsedLength),
-    voltage: availableStrips.value[0].voltage
+    points: calculateInjections(availableStrips[0], parsedLength),
+    voltage: availableStrips[0].voltage
   }
 }
 
@@ -73,17 +72,48 @@ const handleReset = () => {
   stripVoltage.value = ''
   stripLEDsPerMeter.value = ''
   stripLength.value = '5'
-  availableStrips.value = Strips
   injectionData.value = null
   strips.removeStrip(props.index)
 }
 
-const getUniqueArray = <T extends keyof Strip>(key: T) => {
-  const uniqueArray = new Set<Strip[T]>()
-  availableStrips.value.forEach((item) => {
+const getUniqueArray = <A extends Strip[], K extends keyof Strip>(array: A, key: K) => {
+  const uniqueArray = new Set<A[number][K]>()
+  array.forEach((item) => {
     uniqueArray.add(item[key])
   })
   return Array.from(uniqueArray)
+}
+
+const getSelectValues = (key: 'type' | 'voltage' | 'lEDsPerMeter') => {
+  let strips = [...Strips]
+
+  const type = stripType.value
+  const voltage = stripVoltage.value
+  const lEDsPerMeter = stripLEDsPerMeter.value
+
+  if (key !== 'type') {
+    if (type) {
+      strips = strips.filter((strip) => strip.type === type)
+    }
+  }
+  if (key !== 'voltage') {
+    if (voltage) {
+      const parsedVoltage = Number.parseInt(voltage)
+      if (!Number.isNaN(parsedVoltage) && parsedVoltage > 0) {
+        strips = strips.filter((strip) => strip.voltage === parsedVoltage)
+      }
+    }
+  }
+  if (key !== 'lEDsPerMeter') {
+    if (lEDsPerMeter) {
+      const parsedLEDsPerMeter = Number.parseInt(lEDsPerMeter)
+      if (!Number.isNaN(parsedLEDsPerMeter) && parsedLEDsPerMeter > 0) {
+        strips = strips.filter((strip) => strip.lEDsPerMeter === parsedLEDsPerMeter)
+      }
+    }
+  }
+
+  return getUniqueArray(strips, key)
 }
 </script>
 
@@ -94,7 +124,7 @@ const getUniqueArray = <T extends keyof Strip>(key: T) => {
       <label for="stripType">Type: </label>
       <select id="stripType" v-model="stripType">
         <option selected value>Select an option</option>
-        <option v-for="stripType in getUniqueArray('type')" :key="stripType" :value="stripType">
+        <option v-for="stripType in getSelectValues('type')" :key="stripType" :value="stripType">
           {{ stripType }}
         </option>
       </select>
@@ -103,14 +133,14 @@ const getUniqueArray = <T extends keyof Strip>(key: T) => {
       <label for="stripVoltage">Voltage: </label>
       <select id="stripVoltage" v-model="stripVoltage">
         <option selected value>Select an option</option>
-        <option v-for="voltage in getUniqueArray('voltage')" :key="voltage">{{ voltage }}V</option>
+        <option v-for="voltage in getSelectValues('voltage')" :key="voltage">{{ voltage }}V</option>
       </select>
     </div>
     <div>
       <label for="stripLEDsPerMeter">LEDs/m: </label>
       <select id="stripLEDsPerMeter" v-model="stripLEDsPerMeter">
         <option selected value>Select an option</option>
-        <option v-for="lEDsPerMeter in getUniqueArray('lEDsPerMeter')" :key="lEDsPerMeter">
+        <option v-for="lEDsPerMeter in getSelectValues('lEDsPerMeter')" :key="lEDsPerMeter">
           {{ lEDsPerMeter }}LEDs/m
         </option>
       </select>
