@@ -4,7 +4,7 @@ import ResourceLink from './ResourceLink.vue'
 
 <template>
   <div class="m-4 flex flex-col">
-    <h2 class="mb-4 text-4xl font-extrabold">Resources (🚧 Under Construction)</h2>
+    <h2 class="mb-4 text-4xl font-extrabold">Useful Resources</h2>
     <ul class="ml-4 space-y-4">
       <li>
         <ResourceLink title="QuinLED Website" link="https://quinled.info/" />
@@ -22,6 +22,12 @@ import ResourceLink from './ResourceLink.vue'
         <ResourceLink
           title="Worldwide QuinLED Controller Store"
           link="https://shop.allnetchina.cn/collections/quinled"
+        />
+      </li>
+      <li>
+        <ResourceLink
+          title="QuinLED LED Power Usage Charts"
+          link="https://quinled.info/2020/03/12/digital-led-power-usage/"
         />
       </li>
     </ul>
