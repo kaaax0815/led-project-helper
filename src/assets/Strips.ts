@@ -5,7 +5,9 @@ export const Strips = [
     powerDraw: {
       RGB_50: 33.9
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 1,
+    buyLink: 'https://www.amazon.de/dp/B01CDTEJBG/?tag=intermittech-20'
   },
   {
     type: 'WS2812b-Eco',
@@ -13,7 +15,9 @@ export const Strips = [
     powerDraw: {
       RGB_50: 24.8
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 1,
+    buyLink: 'https://www.amazon.de/dp/B088BPGMXB/?tag=intermittech-20'
   },
   {
     type: 'SK6812',
@@ -21,7 +25,10 @@ export const Strips = [
     powerDraw: {
       RGB_50: 26.3
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 1,
+    information: ['RGBW'],
+    buyLink: 'https://www.amazon.de/dp/B079ZW1265/?tag=intermittech-20'
   },
   {
     type: 'WS2815',
@@ -29,7 +36,10 @@ export const Strips = [
     powerDraw: {
       RGB_50: 27.0
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 1,
+    buyLink:
+      'https://www.btf-lighting.com/collections/ws2815-12v/products/1-ws2815-dc12v-led-pixels-strip-light-dual-signal?variant=43263608160482'
   },
   {
     type: 'WS2811',
@@ -37,7 +47,9 @@ export const Strips = [
     powerDraw: {
       RGB_50: 41.41
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 3,
+    buyLink: 'https://www.amazon.de/dp/B01CNL6LBK/?tag=intermittech-20'
   },
   {
     type: 'WS2811',
@@ -45,7 +57,9 @@ export const Strips = [
     powerDraw: {
       RGB_50: 53.5
     },
-    lEDsPerMeter: 96
+    lEDsPerMeter: 96,
+    addressableBy: 3,
+    buyLink: 'https://www.aliexpress.com/item/2000165819.html'
   },
   {
     type: 'WS2811',
@@ -53,7 +67,9 @@ export const Strips = [
     powerDraw: {
       RGB_50: 76.34
     },
-    lEDsPerMeter: 144
+    lEDsPerMeter: 144,
+    addressableBy: 3,
+    buyLink: 'https://www.aliexpress.com/item/2000165819.html'
   },
   {
     type: 'SK6812',
@@ -61,15 +77,10 @@ export const Strips = [
     powerDraw: {
       RGB_50: 16.5
     },
-    lEDsPerMeter: 60
-  },
-  {
-    type: 'WS2811',
-    voltage: 24,
-    powerDraw: {
-      RGB_50: 72.87
-    },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 3,
+    information: ['RGBW', 'Warm White'],
+    buyLink: 'https://www.amazon.de/dp/B01N0MA729/?tag=intermittech-20'
   },
   {
     type: 'SK6812',
@@ -77,7 +88,9 @@ export const Strips = [
     powerDraw: {
       RGB_50: 22.42
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 6,
+    information: ['RGBW']
   },
   {
     type: 'WS2814',
@@ -85,7 +98,10 @@ export const Strips = [
     powerDraw: {
       RGB_50: 34.51
     },
-    lEDsPerMeter: 60
+    lEDsPerMeter: 60,
+    addressableBy: 6,
+    information: ['RGBW'],
+    buyLink: 'https://www.amazon.de/dp/B0BCK71VH3/?tag=intermittech-20'
   },
   {
     type: 'WS2811',
@@ -93,7 +109,10 @@ export const Strips = [
     powerDraw: {
       RGB_50: 59.0
     },
-    lEDsPerMeter: 240
+    lEDsPerMeter: 240,
+    addressableBy: 12,
+    information: ['COB-RGB', 'Addressable Neon'],
+    buyLink: 'https://www.amazon.de/dp/B0BN7FK5HZ/?tag=intermittech-20'
   }
 ] satisfies Strip[]
 
@@ -108,17 +127,25 @@ export const StripTypes = [
 ] as const
 export type StripTypes = (typeof StripTypes)[number]
 
+/**
+ * Assuming every strip is 5m long
+ */
 export type Strip = {
   type: StripTypes
   /** @Unit `V [Volt]` */
   voltage: Voltages
-  /** Based on `5m` length */
   powerDraw: {
     /** @Unit `W [Watt]` */
     RGB_50: number
   }
   /** @Unit `LEDs/m [LEDs per meter]` */
   lEDsPerMeter: number
+  /** How many LEDs are one Pixel */
+  addressableBy: number
+  /** Additional information */
+  information?: string[]
+  /** Buy link to type of strip */
+  buyLink?: string
 }
 
 // Ignored for now

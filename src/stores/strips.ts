@@ -4,7 +4,7 @@ import { defineStore } from 'pinia'
 export const useStripsStore = defineStore('strips', {
   state: () => {
     return {
-      /** CAREFUL: Array can be empty or have `empty` values */
+      /** WARNING: Array can be empty or have `empty` values */
       slots: new Array() as StripsValue[]
     }
   },

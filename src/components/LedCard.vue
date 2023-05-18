@@ -3,6 +3,7 @@ import { type InjectionPoint, type Strip, Strips, calculateInjections } from '@/
 import CardLayout from './CardLayout.vue'
 import CardTitle from './CardTitle.vue'
 import LedButton from './LedButton.vue'
+import LedInformation from './LedInformation.vue'
 import LedInjection from './LedInjection.vue'
 import { ref } from 'vue'
 import { useStripsStore } from '@/stores/strips'
@@ -165,5 +166,6 @@ const getSelectValues = (key: 'type' | 'voltage' | 'lEDsPerMeter') => {
         </li>
       </ul>
     </div>
+    <LedInformation :index="index" />
   </CardLayout>
 </template>
