@@ -168,6 +168,13 @@ export function calculateInjections(strip: Strip, length: number): InjectionPoin
   }
   const remaining = amperage - 8
   const middleInjections = Math.ceil((remaining - 0.5) / 8)
+
+  const middleAmperage = Number((remaining / middleInjections).toFixed(1))
+  const middleValues = [...Array(middleInjections)].map((_, i) => ({
+    position: `Middle ${i + 1}`,
+    amperage: middleAmperage
+  }))
+
   return [
     {
       position: 'Front',
@@ -177,10 +184,7 @@ export function calculateInjections(strip: Strip, length: number): InjectionPoin
       position: 'Back',
       amperage: 4
     },
-    {
-      position: `${middleInjections}x Middle`,
-      amperage: Number(remaining.toFixed(1))
-    }
+    ...middleValues
   ]
 }
 
