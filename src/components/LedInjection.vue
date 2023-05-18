@@ -23,8 +23,8 @@ const handleInput = debounce(() => {
   let awg = 22
   let percentage = calculateVoltageDropPercentage(stripAmps, stripLength, awg, stripVoltage)
   while (percentage > 10) {
-    percentage = calculateVoltageDropPercentage(stripAmps, stripLength, awg, stripVoltage)
     awg--
+    percentage = calculateVoltageDropPercentage(stripAmps, stripLength, awg, stripVoltage)
   }
   wireAwg.value = awg
 }, 300)
