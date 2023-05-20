@@ -8,7 +8,7 @@ This is a Vue Website styled with TailwindCSS that helps you build your next LED
 
 ### 🔮 Planned Features
 
-- [ ] Add more Information about each Strip (Total LEDs, Pixels, Power Consumptions, etc.)
+- If you have a idea on your mind please share it in a [new Discussion](https://github.com/kaaax0815/led-project-helper/discussions/new?category=ideas)
 
 ### ✨ Contribute
 
